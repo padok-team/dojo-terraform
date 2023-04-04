@@ -1,1 +1,1 @@
-# dojo-terraform
+# Dojo Terraform
