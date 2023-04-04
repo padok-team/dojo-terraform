@@ -38,13 +38,22 @@ runcmd:
   - echo 'Banner /etc/ssh/banner' >> /etc/ssh/sshd_config.d/banner.conf
   - sudo systemctl restart sshd
 
-  # install aws cli
+  # Install aws cli
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - unzip awscliv2.zip
+  - sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
+  - aws --version
 
-  # install tfswitch
+  # Install tfswitch
+  - curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+  - tfswitch --version
 
-  # install tgswitch
+  # Install tgswitch
+  - curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
+  - tgswitch --version
 
-  # install direnv
+  # Install direnv
+  - sudo apt install -y direnv
 
   # Clone the exercise repository
   %{~ for repo_name, repo_url in repositories ~}

@@ -6,7 +6,7 @@ locals {
   root = read_terragrunt_config(find_in_parent_folders())
 
   root_zone_name = "padok.school"
-  domain_name    = "${local.root.locals.environment}.${local.root_zone_name}"
+  domain_name    = "dojo.${local.root_zone_name}"
 }
 
 inputs = {

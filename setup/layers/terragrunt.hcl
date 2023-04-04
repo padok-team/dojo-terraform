@@ -5,25 +5,21 @@ terragrunt_version_constraint = "~> 0.38"
 locals {
   region        = "eu-west-3"
   backup_region = "eu-central-1"
-  project       = "padok-school"
-  environment   = basename(get_original_terragrunt_dir())
+  project       = "padok-dojo"
   profile = {
     root = "padok_lab"
     dojo = "padok_dojo"
   }
-  env_profile = local.profile[local.environment]
-  root_dir    = get_terragrunt_dir()
+  root_dir = get_terragrunt_dir()
 }
 
 inputs = {
   context = {
     region        = local.region
     backup_region = local.backup_region
-    env           = local.environment
     project       = local.project
     # Add default_tags here to manually add tags on resources when provider don't do it for us!
     default_tags = {
-      Environment = "${local.environment}"
       Owner       = "${local.project}"
       ManagedByTF = "True"
     }
@@ -38,7 +34,7 @@ remote_state {
     key            = "${path_relative_to_include()}/terraform.tfstate"
     region         = local.region
     dynamodb_table = "terraform-locks"
-    profile        = local.env_profile
+    profile        = "${local.profile["dojo"]}"
   }
   generate = {
     path      = "backend.tf"
@@ -57,7 +53,7 @@ provider "aws" {
     tags = var.context.default_tags
   }
 
-  profile = "${local.env_profile}"
+  profile = "${local.profile["dojo"]}"
 }
 provider "aws" {
   region = "${local.region}"
@@ -77,7 +73,7 @@ provider "aws" {
     tags = var.context.default_tags
   }
 
-  profile = "${local.env_profile}"
+  profile = "${local.profile["dojo"]}"
 }
 EOF
 }

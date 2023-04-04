@@ -55,7 +55,7 @@ resource "aws_instance" "this" {
 
   #checkov:skip=CKV_AWS_88:The instance needs to be public
   associate_public_ip_address = true
-  subnet_id                   = aws_subnet.subnet_primary.id
+  subnet_id                   = var.context.network.public_subnets_ids[0]
 
   # Checkov recommandations
   metadata_options {

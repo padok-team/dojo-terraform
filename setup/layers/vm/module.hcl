@@ -1,5 +1,5 @@
 terraform {
-  source = "${get_repo_root()}/setup/modules//ecs/cluster"
+  source = "${get_repo_root()}/setup/modules//vm"
 }
 
 locals {
@@ -11,21 +11,19 @@ dependency "network" {
   config_path = "${local.root.locals.root_dir}/network"
 }
 
-dependency "dns" {
-  config_path = "${local.root.locals.root_dir}/dns"
-}
-
 inputs = {
   context = {
     network = {
       vpc_id             = dependency.network.outputs.vpc_id
       public_subnets_ids = dependency.network.outputs.public_subnets
     }
-    dns = {
-      acm_certificate_arn = dependency.dns.outputs.acm_certificate_arn
-    }
-    ecs_cluster = {
+    vm = object({
       name = local.name
-    }
+      github_usernames = [
+        "qprichard"
+      ]
+      instance_type = "t3a.large"
+      repositories  = []
+    })
   }
 }

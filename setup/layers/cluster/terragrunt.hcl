@@ -4,11 +4,6 @@ include "root" {
 }
 
 include "module" {
-  path           = find_in_parent_folders("module.hcl")
-  merge_strategy = "deep"
-}
-
-include "inputs" {
-  path           = "inputs.hcl"
+  path           = "module.hcl"
   merge_strategy = "deep"
 }
