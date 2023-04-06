@@ -19,7 +19,6 @@ resource "aws_security_group" "this" {
     to_port     = 0
   }
 
-  tags = var.context.tags
 }
 
 data "aws_ami" "ubuntu_20_04" {
@@ -70,10 +69,9 @@ resource "aws_instance" "this" {
 
   user_data                   = local.user_data_per_user[each.key]
   user_data_replace_on_change = true
-  tags = merge(
-    { Name = "${var.context.vm.name}-${each.key}" },
-    var.context.tags
-  )
+  tags = {
+    Name = "${var.context.vm.name}-${each.key}"
+  }
 }
 
 

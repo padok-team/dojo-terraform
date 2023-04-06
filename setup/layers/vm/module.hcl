@@ -11,19 +11,24 @@ dependency "network" {
   config_path = "${local.root.locals.root_dir}/network"
 }
 
+dependency "dns" {
+  config_path = "${local.root.locals.root_dir}/dns"
+}
+
 inputs = {
   context = {
+    dns = dependency.dns.outputs.this
     network = {
       vpc_id             = dependency.network.outputs.vpc_id
       public_subnets_ids = dependency.network.outputs.public_subnets
     }
-    vm = object({
+    vm = {
       name = local.name
       github_usernames = [
         "qprichard"
       ]
       instance_type = "t3a.large"
       repositories  = []
-    })
+    }
   }
 }

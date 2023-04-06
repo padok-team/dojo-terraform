@@ -39,8 +39,9 @@ runcmd:
   - sudo systemctl restart sshd
 
   # Install aws cli
+  - sudo apt install -y unzip
   - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  - unzip awscliv2.zip
+  - sudo unzip awscliv2.zip
   - sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
   - aws --version
 
@@ -53,7 +54,8 @@ runcmd:
   - tgswitch --version
 
   # Install direnv
-  - sudo apt install -y direnv
+  - curl -sfL https://direnv.net/install.sh | bash
+  - direnv --version
 
   # Clone the exercise repository
   %{~ for repo_name, repo_url in repositories ~}
@@ -63,3 +65,4 @@ runcmd:
   %{~ endfor }
 
   # copy aws credentials
+  # TODO
