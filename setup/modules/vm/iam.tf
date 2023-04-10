@@ -14,6 +14,7 @@ resource "aws_iam_access_key" "these" {
   ]
 }
 
+# TODO: find accurate rights for Dojo needs
 data "aws_iam_policy_document" "admin" {
   statement {
     effect    = "Allow"

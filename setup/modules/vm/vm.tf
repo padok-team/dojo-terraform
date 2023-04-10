@@ -36,8 +36,10 @@ data "aws_ami" "ubuntu_20_04" {
 locals {
   user_data_per_user = { for user in var.context.vm.github_usernames :
     user => templatefile("${path.module}/templates/userdata.yaml.tpl", {
-      github_username = user,
-      repositories    = var.context.vm.repositories
+      github_username       = user,
+      repositories          = var.context.vm.repositories
+      aws_access_key_id     = aws_iam_access_key.these[user].id
+      aws_secret_access_key = aws_iam_access_key.these[user].secret
       }
     )
   }
