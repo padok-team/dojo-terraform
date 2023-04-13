@@ -63,10 +63,3 @@ runcmd:
     # Set correct permissions for the repository
   - chown -R ${github_username}:${github_username} "/home/${github_username}/${repo_name}" || true # no fail if clone failed
   %{~ endfor }
-
-  # copy aws credentials
-  - mkdir /home/${github_username}/.aws
-  - touch /home/${github_username}/.aws/credentials
-  - echo "[default]" >> /home/${github_username}/.aws/credentials
-  - echo "aws_access_key_id = ${aws_access_key_id}" >> /home/${github_username}/.aws/credentials
-  - echo "aws_secret_access_key = ${aws_secret_access_key}" >> /home/${github_username}/.aws/credentials

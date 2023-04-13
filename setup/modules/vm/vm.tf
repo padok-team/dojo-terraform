@@ -92,14 +92,15 @@ data "aws_iam_policy_document" "ec2_sts_assume" {
   }
 
 }
+
 resource "aws_iam_role" "this" {
   name_prefix        = var.context.vm.name
   assume_role_policy = data.aws_iam_policy_document.ec2_sts_assume.json
 }
 
-resource "aws_iam_role_policy_attachment" "ec2_ssm" {
+resource "aws_iam_role_policy_attachment" "administrator_access" {
   role       = aws_iam_role.this.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 resource "aws_iam_instance_profile" "this" {
