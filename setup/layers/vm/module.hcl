@@ -29,7 +29,9 @@ inputs = {
         "edix9"
       ]
       instance_type = "t3a.large"
-      repositories  = []
+      repositories = {
+        "dojo-guestbook" = "https://github.com/padok-team/dojo-terraform.git"
+      }
     }
   }
 }

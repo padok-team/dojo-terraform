@@ -2,6 +2,10 @@ locals {
   ecrs = ["backend", "frontend"]
 }
 
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 module "ecrs" {
   for_each = toset(local.ecrs)
 
@@ -32,8 +36,11 @@ module "ecrs" {
 }
 
 # aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
-resource "terraform_data" "this" {
+resource "null_resource" "this" {
   provisioner "local-exec" {
-    command = "docker "
+    command = <<-EOT
+      exec "aws ecr get-login-password --region ${aws_region.current.name} | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com"
+      exec "command2"
+    EOT
   }
 }
