@@ -17,7 +17,6 @@ Those documentations could be usefull for the rest of the dojo. Don't be afraid 
 - [Terraform documentation](https://www.terraform.io/)
 - [Tfswitch](https://tfswitch.warrensbox.com/Install/)
 - [AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
-- [AWS admin console]()
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Step 0 - I set up my toolbox
@@ -31,20 +30,20 @@ Those documentations could be usefull for the rest of the dojo. Don't be afraid 
 #### Technical Comments
 - Download & install [Visual Studio Code](https://code.visualstudio.com/download)
 - Install `remote - ssh` extension for VSCode
-- Connect through `ssh-remote`to `<github_handle>@<github_handle>.dojo.padok.school`
-- Find `dojo-terraform/exercices` folder repository in your home directory
+- Connect through `ssh-remote` with `ssh <github_handle>@<github_handle>.dojo.padok.school`
+- Find `dojo-terraform/exercices` folder repository in the home directory of your VM (with VSCode terminal)
 - Explore your repository!! :D
 - Use `tfswitch` command to install the accurate terraform version
-- Find your first `terraform` CLI command to show the current version in use
+- Type your first `terraform` CLI command to show the current version in use
 
 <details>
   <summary> Hint n°1</summary>
-  Have you  read the Getting Started `terraform` documentation?
+  Tfswitch will use `.tfswitchrc` file in your repository...
 </details>
 
 <details>
   <summary> Hint n°2</summary>
-  Tfswitch will use `.tfswitchrc` file in your repository...
+  Have you  read the Getting Started `terraform` documentation?
 </details>
 
 <br>

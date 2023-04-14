@@ -25,7 +25,8 @@ inputs = {
     vm = {
       name = local.name
       github_usernames = [
-        "qprichard"
+        "qprichard",
+        "edix9"
       ]
       instance_type = "t3a.large"
       repositories  = []

@@ -1,4 +1,4 @@
-# Dojo terraform environment setup
+# Dojo terraform setup
 
 ## Requirements
 
@@ -14,3 +14,32 @@ Be assure you have following roles on AWS accounts:
 - padok_dojo - *AdministratorAccess*
 
 If not, You can ask to the padok aws team.
+## Installation
+
+1. In `setup/layers/vm/module.hcl`, set `github_usernames` parameter with accurate list of users.
+
+2. Run the following commands.
+```bash
+# From repository root folder
+tfswitch
+tgswitch
+
+cd ./setup/layers
+
+# Allow direnv to use .envrc
+direnv allow
+
+# Login to AWS through Padok SSO
+aws sso login
+
+terragrunt run-all apply
+```
+
+## Infrastructure details
+
+This repository will deploy an AWS infrastructure designed for the Dojo in `padok_dojo` account.
+The principal resources deployed are:
+- A VPC
+- A Route 53 hosted zone `dojo.padok.school`
+- An ECS Cluster with an Elastic Load balancer
+- A tunned virtual machine for each student with every cli and tools they will need
