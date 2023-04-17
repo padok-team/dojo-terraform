@@ -26,6 +26,7 @@ This documentation could be useful for the dojo. Don't be afraid to ask question
 
 - Download & install [Visual Studio Code](https://code.visualstudio.com/download)
 - Install [`Remote - SSH`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension for VSCode
+- Make sure you have declared your ssh key in your github account (cf [the documentation](https://docs.github.com/fr/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account))
 - Connect through `ssh-remote` with `<github_handle>@<github_handle>.dojo.padok.school`
 - Go to `/home/<github_handle>/dojo-terraform` in the Virtual Machine
 - Use `tfswitch` command to install the accurate terraform version
@@ -189,19 +190,93 @@ Now let's deploy our web application! :D
 
 ### A - My load balancer can target my instances
 
+We want to confgiure our Load Balancer to target your application instances, based on their endpoint.
+
+**Technical Comments**
+
 **LB target groups**
 
-- Donner le template de la ressource
-- Il faut faire un for_each avec un port différent en fonction de l'app
-- Donner le VPC
+- Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) and the following template
 
+```yaml
+resource "aws_lb_target_group" "this" {
+  name        = "<github-handle>-<app>" #TOFILL
+  port        = ""                      #TOFILL
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = "" #TOFILL
+
+  health_check {
+    enabled             = true
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+    matcher             = "200"
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+  }
+}
+```
+- Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
+- Frontend application runs on port 80 and backend on port 3000
+
+<details>
+  <summary> Hint n°1</summary>
+  You may re-use the  application local already declared.
+</details>
+
+<details>
+  <summary> Hint n°2</summary>
+  You can find useful information in ~/data.txt.
+</details>
 
 **LB listener rules**
+- Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) and the following template
+-
 
-- Donner le template de la ressource
-- Il faut faire un for_each avec le endpoint différent en fct de l'app (donc mettre à jour la locale)
-- Donner le listener_arn
+```yaml
+resource "aws_lb_listener_rule" "this" {
+  listener_arn = "" #TOFILL
+  action {
+    type             = "forward"
+    target_group_arn = "" #TOFILL
+  }
+  condition {
+    host_header {
+      values = [<my-endpoint-value>] #TOFILL
+    }
+  }
 
+  lifecycle {
+    ignore_changes = [
+      priority
+    ]
+  }
+}
+```
+- Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
+- Frontend application runs on port 80 and backend on port 3000
+
+<details>
+  <summary> Hint n°1</summary>
+  You may re-use the  application local already declared.
+</details>
+
+<details>
+  <summary> Hint n°2</summary>
+  You can find useful information in ~/data.txt.
+</details>
+
+<details>
+  <summary> Hint n°3</summary>
+  Feel free to update your existing codebase to avoid code repetition
+</details>
+
+**Acceptance Criterias**
+- [ ] I have a target group for my backend and my frontend
+- [ ] My load balancer has new listener rules pointing on the right target groups
 
 ### B - I use a module to deploy resources
 
