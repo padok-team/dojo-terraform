@@ -15,6 +15,10 @@ dependency "dns" {
   config_path = "${local.root.locals.root_dir}/dns"
 }
 
+dependency "cluster" {
+  config_path = "${local.root.locals.root_dir}/cluster"
+}
+
 inputs = {
   context = {
     dns = dependency.dns.outputs.this
@@ -22,6 +26,7 @@ inputs = {
       vpc_id             = dependency.network.outputs.vpc_id
       public_subnets_ids = dependency.network.outputs.public_subnets
     }
+    lb = dependency.cluster.outputs.lb
     vm = {
       name = local.name
       github_usernames = [

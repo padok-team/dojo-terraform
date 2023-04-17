@@ -63,3 +63,13 @@ runcmd:
     # Set correct permissions for the repository
   - chown -R ${github_username}:${github_username} "/home/${github_username}/${repo_name}" || true # no fail if clone failed
   %{~ endfor }
+
+  # Set useful data
+  - touch /home/${github_username}/data.txt
+  - echo "dns_zone_id = ${dns_zone_id}" >> /home/${github_username}/data.txt
+  - echo "lb_dns_name = ${lb_dns_name}" >> /home/${github_username}/data.txt
+  - echo "lb_listner_arn = ${lb_listner_arn}" >> /home/${github_username}/data.txt
+  - echo "vpc_id = ${vpc_id}" >> /home/${github_username}/data.txt
+  - echo "aws_account_id = ${aws_account_id}" >> /home/${github_username}/data.txt
+  - echo "iam_user_name = ${iam_user_name}" >> /home/${github_username}/data.txt
+  - echo "iam_user_password = ${iam_user_password}" >> /home/${github_username}/data.txt

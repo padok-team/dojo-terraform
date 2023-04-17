@@ -8,11 +8,11 @@ output "ssh_command_per_user" {
   value       = { for user in var.context.vm.github_usernames : user => "ssh ${user}@${aws_route53_record.these[user].fqdn}" }
 }
 
-output "admin_user" {
-  description = "Admin user credentials"
+output "user" {
+  description = "Read Only user credentials"
   value = {
-    name     = aws_iam_user.admin.name
-    password = aws_iam_user_login_profile.admin.password
+    name     = aws_iam_user.user.name
+    password = aws_iam_user_login_profile.user.password
   }
 }
 
