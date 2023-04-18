@@ -9,4 +9,4 @@ You can find the setup documentation [here](./setup/README.md).
 
 ## Exercices
 
-A list of parctical exercices is available [here](./exercices/README.md).
+A list of parctical exercices is available [here](./exercises/README.md).
