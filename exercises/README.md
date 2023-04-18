@@ -289,7 +289,9 @@ resource "aws_lb_listener_rule" "this" {
 
 - Use [official documentation](https://developer.hashicorp.com/terraform/language/modules/syntax) to get familiar with the usage of a module
 - Take a look at the service module in [`modules/service`](modules/service)
-- See what variables are necessary for the module to work
+- Some Environment variables must be set
+  - frontend: BACKEND_URL
+  - backend: APPLICATION_USER
 - Instanciate the module by creating a terraform file in [`app/`](./app). The source can be a relative path to your module.
 - You need to deploy two services: frontend and backend
 - Set the proper variables for your module
@@ -320,11 +322,76 @@ resource "aws_lb_listener_rule" "this" {
 
 ### C - I have my own module for my application
 
-- créer un module
-- variabiliser
+You built a layer for your application in `app/` folder. But how would you duplicate your deployment for multiple applications?
+Let's create a module!
+
+**Technical Comments:**
+- First of all, destroy your infrastructure with `terraform destroy`
+- Based on [official documentation](https://developer.hashicorp.com/terraform/language/modules), create a module in `modules/app` folder
+- We want to create a module able to deploy one container on one endpoint with its specific configurations.
+- Re-use the resources you previously deployed
+- Set your variables and outputs
+- Use your module in `app` folder to deploy your frontend and your backend
+
+
+**Acceptance Criterias:**
+- I have an `app` module
+- I use my `app` module in my layer
+- My application runs in AWS Infrastructure with acc
+
+<details>
+  <summary> Hint n°1</summary>
+  You may take as example the service module.
+</details>
+
+<details>
+  <summary> Hint n°2</summary>
+  You can declare datas in app layer to pass only useful informations to the module.
+</details>
+
+<details>
+  <summary> Hint n°3</summary>
+  Don't forget to keep your code DRY!
+</details>
+
+Congratulations!! 🥳 You are a Terraform Builder!
+
+<details>
+  <summary> What did you learn? </summary>
+  <ul>
+    <li>Use complexe resources</li>
+    <li>Use resource outputs</li>
+    <li>Use an existing module</li>
+    <li>Destroy your terraform infrastructure</li>
+    <li>Create a module</li>
+    <li>Create variables</li>
+  </ul>
+</details>
 
 ## Step 3 - To go further
 
 ### A - Terraform CLI
 
-### B - See Limits of terraform
+**Technical Comments:**
+- Based on [Terraform CLI documentation](https://developer.hashicorp.com/terraform/cli) and using Treraform CLI
+- List all resources of your state
+- Remove a resource from your state and make a plan to see what it will do. You may try to apply
+- Import the resource you deleted in your state
+- Destroy only one resource with a `--target`
+
+**Acceptance Criterias:**
+- [ ] I know some deeper `terraform CLI`
+
+### B - Limitations
+
+**Technical Comments:**
+- [ ] Take a look at [remote state documentation](https://developer.hashicorp.com/terraform/language/state/remote)
+- [ ] Take a look at [terragrunt documentation](https://terragrunt.gruntwork.io/)
+
+**Acceptance Criterias:**
+- [ ] I know why remote state and state lock are necessary
+- [ ] I understand the limitations of Terraform and know the usefulness of Terragrunt
+
+## Clean
+
+Don't forget to clean your toolbox by running `terraform destroy` in `exercices/app`.
