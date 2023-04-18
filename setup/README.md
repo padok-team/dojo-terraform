@@ -42,4 +42,5 @@ The principal resources deployed are:
 - A VPC
 - A Route 53 hosted zone `dojo.padok.school`
 - An ECS Cluster with an Elastic Load balancer
+- Two ECR for backend and frontend application
 - A tunned virtual machine for each student with every cli and tools they will need
