@@ -197,9 +197,16 @@ We want to confgiure our Load Balancer to target your application instances, bas
 **LB target groups**
 
 - Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) and the following template
+- Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
+- Frontend application runs on port 80 and backend on port 3000
+- Useful informations are in `~/data.txt`
+- Deploy your resources
+
+
 
 ```yaml
 resource "aws_lb_target_group" "this" {
+  # TODO: iterate to create 2 target groups
   name        = "<github-handle>-<app>" #TOFILL
   port        = ""                      #TOFILL
   protocol    = "HTTP"
@@ -219,25 +226,25 @@ resource "aws_lb_target_group" "this" {
   }
 }
 ```
-- Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
-- Frontend application runs on port 80 and backend on port 3000
 
 <details>
   <summary> Hint n°1</summary>
   You may re-use the  application local already declared.
 </details>
 
-<details>
-  <summary> Hint n°2</summary>
-  You can find useful information in ~/data.txt.
-</details>
+
+
+<br/>
 
 **LB listener rules**
 - Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) and the following template
--
+- Set the accurate configuration to deploy two `aws_lb_listener_rule` using iteration
+- Useful informations are in `~/data.txt`
+- Deploy your resources
 
 ```yaml
 resource "aws_lb_listener_rule" "this" {
+  # TODO: iterate to create 2 target groups
   listener_arn = "" #TOFILL
   action {
     type             = "forward"
@@ -256,8 +263,7 @@ resource "aws_lb_listener_rule" "this" {
   }
 }
 ```
-- Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
-- Frontend application runs on port 80 and backend on port 3000
+
 
 <details>
   <summary> Hint n°1</summary>
@@ -266,32 +272,50 @@ resource "aws_lb_listener_rule" "this" {
 
 <details>
   <summary> Hint n°2</summary>
-  You can find useful information in ~/data.txt.
-</details>
-
-<details>
-  <summary> Hint n°3</summary>
   Feel free to update your existing codebase to avoid code repetition
 </details>
+
+<br/>
 
 **Acceptance Criterias**
 - [ ] I have a target group for my backend and my frontend
 - [ ] My load balancer has new listener rules pointing on the right target groups
+
+<br/>
 
 ### B - I use a module to deploy resources
 
 **Technical Comments**
--
+
+- Use [official documentation](https://developer.hashicorp.com/terraform/language/modules/syntax) to get familiar with the usage of a module
+- Take a look at the service module in [`modules/service`](modules/service)
+- See what variables are necessary for the module to work
+- Instanciate the module by creating a terraform file in [`app/`](./app). The source can be a relative path to your module.
+- You need to deploy two services: frontend and backend
+- Set the proper variables for your module
+- Useful informations are in `~/data.txt`
+- Deploy your resources
+
+<details>
+  <summary> Hint n°1</summary>
+  You may use a data to get ECS cluster details. Its name is padok-dojo.
+</details>
+
+<details>
+  <summary> Hint n°2</summary>
+  You might need some outputs from previously created resources to use for the module variables.
+</details>
+
+<details>
+  <summary> Hint n°3</summary>
+  You can reuse the locals created previously to iterate over the module and create the two services.
+</details>
+
 
 **Acceptance Criterias**
-- [ ] I have a target group for my backend and my frontend
-- [ ] My load balancer has new listener rules pointing on the right target groups
+- [ ] My backend endpoint shows the expected data
+- [ ] My frontend endpoints shows a terraform image and congratulates me for my great work 🥳
 
-- Découvrir le module service
-- L'utiliser avec une config de base
-  - image à utiliser
-  - ID / nom du cluster
-  - TODO
 
 
 ### C - I have my own module for my application

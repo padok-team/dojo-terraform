@@ -69,7 +69,10 @@ runcmd:
   - echo "dns_zone_id = ${dns_zone_id}" >> /home/${github_username}/data.txt
   - echo "lb_dns_name = ${lb_dns_name}" >> /home/${github_username}/data.txt
   - echo "lb_listner_arn = ${lb_listner_arn}" >> /home/${github_username}/data.txt
+  - echo "lb_security_group_id = ${lb_security_group_id}" >> /home/${github_username}/data.txt
   - echo "vpc_id = ${vpc_id}" >> /home/${github_username}/data.txt
   - echo "aws_account_id = ${aws_account_id}" >> /home/${github_username}/data.txt
   - echo "iam_user_name = ${iam_user_name}" >> /home/${github_username}/data.txt
   - echo "iam_user_password = ${iam_user_password}" >> /home/${github_username}/data.txt
+  - echo "ecr_backend = ${ecr_backend}" >> /home/${github_username}/data.txt
+  - echo "ecr_frontend = ${ecr_frontend}" >> /home/${github_username}/data.txt

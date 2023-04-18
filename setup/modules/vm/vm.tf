@@ -40,15 +40,18 @@ data "aws_caller_identity" "current" {}
 locals {
   user_data_per_user = { for user in var.context.vm.github_usernames :
     user => templatefile("${path.module}/templates/userdata.yaml.tpl", {
-      github_username   = user,
-      repositories      = var.context.vm.repositories,
-      dns_zone_id       = var.context.dns.zone_id,
-      lb_dns_name       = var.context.lb.dns_name,
-      lb_listner_arn    = var.context.lb.listener_arn,
-      vpc_id            = var.context.network.vpc_id,
-      aws_account_id    = data.aws_caller_identity.current.account_id
-      iam_user_name     = aws_iam_user.user.name
-      iam_user_password = aws_iam_user_login_profile.user.password
+      github_username      = user,
+      repositories         = var.context.vm.repositories,
+      dns_zone_id          = var.context.dns.zone_id,
+      lb_dns_name          = var.context.lb.dns_name,
+      lb_listner_arn       = var.context.lb.listener_arn,
+      lb_security_group_id = var.context.lb.security_group_id,
+      vpc_id               = var.context.network.vpc_id,
+      aws_account_id       = data.aws_caller_identity.current.account_id,
+      iam_user_name        = aws_iam_user.user.name,
+      iam_user_password    = aws_iam_user_login_profile.user.password,
+      ecr_backend          = module.ecr.ecr_repository_urls[0]
+      ecr_frontend         = module.ecr.ecr_repository_urls[1]
       }
     )
   }

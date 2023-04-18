@@ -1,8 +1,3 @@
-variable "region" {
-  description = "The region."
-  type        = string
-}
-
 variable "cluster" {
   description = "The ECS cluster instance config."
   type = object({

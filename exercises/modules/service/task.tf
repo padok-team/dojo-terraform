@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_cloudwatch_log_group" "this" {
   name = var.config.name
 }
@@ -21,7 +23,7 @@ resource "aws_ecs_task_definition" "this" {
         logDriver = "awslogs",
         options = {
           awslogs-group         = aws_cloudwatch_log_group.this.name,
-          awslogs-region        = var.region,
+          awslogs-region        = data.aws_region.current.name,
           awslogs-stream-prefix = var.config.name
         }
       },
