@@ -17,9 +17,9 @@ variable "config" {
     name          = string
     image         = string
     port          = number
-    cpu           = number
-    memory        = number
-    desired_count = number
+    cpu           = optional(number, 256)
+    memory        = optional(number, 512)
+    desired_count = optional(number, 1)
     environment   = optional(map(string), {})
     secrets       = optional(map(string), {})
   })

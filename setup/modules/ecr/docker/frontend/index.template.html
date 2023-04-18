@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>frontend</title>
+  </head>
+  <body>
+    <style>
+      body {
+        text-align: center;
+      }
+      </style>
+
+    <h1 id="title">Not the website you are looking for...</h1>
+    <img id="img" src="./src/not.jpg"/>
+  </body>
+  <script>
+    fetch(`$BACKEND_URL`)
+    .then(res => res.json())
+    .then(data => {
+      if(data.user == "undefined") {
+        return;
+      }
+
+      var h1 = document.getElementById("title");
+      h1.textContent = `Congratulation ${data.user}, You are a real Terraformer!!`
+      var img = document.getElementById("img")
+      img.src = "./src/terraform.png"
+    })
+  </script>
+</html>

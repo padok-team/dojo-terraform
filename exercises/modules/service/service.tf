@@ -1,8 +1,7 @@
 
 resource "aws_ecs_service" "this" {
-  name    = var.config.name
-  cluster = var.cluster.id
-  # task_definition      = "${aws_ecs_task_definition.this.family}:${max(aws_ecs_task_definition.this.revision, data.aws_ecs_task_definition.this.revision)}"
+  name                 = var.config.name
+  cluster              = var.cluster.id
   task_definition      = aws_ecs_task_definition.this.arn
   launch_type          = "FARGATE"
   desired_count        = var.config.desired_count

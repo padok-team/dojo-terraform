@@ -18,6 +18,7 @@ inputs = {
     region        = local.region
     backup_region = local.backup_region
     project       = local.project
+    profile       = local.profile["dojo"]
     # Add default_tags here to manually add tags on resources when provider don't do it for us!
     default_tags = {
       Owner       = "${local.project}"

@@ -1,9 +1,9 @@
 variable "base_name" {
-  description = "A base name for ecr"
+  description = "A base name for ecr."
   type        = string
 }
 
-variable "repository_read_access_arns" {
-  description = "List of role arns which can read repository"
-  type        = list(string)
+variable "profile_name" {
+  description = "An aws profile name to use in local-exec."
+  type        = string
 }

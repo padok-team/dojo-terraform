@@ -280,6 +280,13 @@ resource "aws_lb_listener_rule" "this" {
 
 ### B - I use a module to deploy resources
 
+**Technical Comments**
+-
+
+**Acceptance Criterias**
+- [ ] I have a target group for my backend and my frontend
+- [ ] My load balancer has new listener rules pointing on the right target groups
+
 - Découvrir le module service
 - L'utiliser avec une config de base
   - image à utiliser
