@@ -12,5 +12,5 @@ resource "aws_route53_record" "these" {
   name     = "${local.github_handle}-${each.key}.${local.zone_name}"
   type     = "CNAME"
   ttl      = "60"
-  records  = [data.aws_lb.this.dns_name]
+  records  = [data.aws_lb.dojo.dns_name]
 }
