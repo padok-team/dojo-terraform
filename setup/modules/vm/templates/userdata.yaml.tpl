@@ -71,6 +71,7 @@ runcmd:
   - echo "lb_listner_arn = ${lb_listner_arn}" >> /home/${github_username}/data.txt
   - echo "lb_security_group_id = ${lb_security_group_id}" >> /home/${github_username}/data.txt
   - echo "vpc_id = ${vpc_id}" >> /home/${github_username}/data.txt
+  - echo "private_subnets_ids = ${private_subnets_ids}" >> /home/${github_username}/data.txt
   - echo "aws_account_id = ${aws_account_id}" >> /home/${github_username}/data.txt
   - echo "iam_user_name = ${iam_user_name}" >> /home/${github_username}/data.txt
   - echo "iam_user_password = ${iam_user_password}" >> /home/${github_username}/data.txt
