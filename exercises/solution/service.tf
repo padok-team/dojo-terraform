@@ -1,4 +1,4 @@
-data "aws_ecs_cluster" "ecs" {
+data "aws_ecs_cluster" "this" {
   cluster_name = "padok-dojo"
 }
 
@@ -7,8 +7,8 @@ module "services" {
   for_each = local.applications
 
   cluster = {
-    id   = data.aws_ecs_cluster.ecs.id
-    name = data.aws_ecs_cluster.ecs.cluster_name
+    id   = data.aws_ecs_cluster.this.id
+    name = data.aws_ecs_cluster.this.cluster_name
   }
 
   config = {
