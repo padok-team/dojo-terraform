@@ -25,16 +25,18 @@ inputs = {
     network = {
       vpc_id             = dependency.network.outputs.vpc_id
       public_subnets_ids = dependency.network.outputs.public_subnets
+      private_subnet_ids = dependency.network.outputs.private_subnets
     }
     lb = dependency.cluster.outputs.lb
     vm = {
       name = local.name
       github_usernames = [
-        "qprichard"
+        "qprichard",
+        "edix9"
       ]
       instance_type = "t3a.large"
       repositories = {
-        "dojo-guestbook" = "https://github.com/padok-team/dojo-terraform.git"
+        "dojo-terraform" = "https://github.com/padok-team/dojo-terraform.git"
       }
     }
   }

@@ -74,5 +74,5 @@ runcmd:
   - echo "aws_account_id = ${aws_account_id}" >> /home/${github_username}/data.txt
   - echo "iam_user_name = ${iam_user_name}" >> /home/${github_username}/data.txt
   - echo "iam_user_password = ${iam_user_password}" >> /home/${github_username}/data.txt
-  - echo "ecr_backend = ${ecr_backend}" >> /home/${github_username}/data.txt
-  - echo "ecr_frontend = ${ecr_frontend}" >> /home/${github_username}/data.txt
+  - echo "ecr_backend_image = ${ecr_backend}" >> /home/${github_username}/data.txt
+  - echo "ecr_frontend_image = ${ecr_frontend}" >> /home/${github_username}/data.txt

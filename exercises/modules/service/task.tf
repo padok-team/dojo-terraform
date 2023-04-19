@@ -14,7 +14,6 @@ resource "aws_ecs_task_definition" "this" {
   execution_role_arn = aws_iam_role.this.arn
   task_role_arn      = aws_iam_role.this.arn
 
-  # TODO: Add log configuration
   container_definitions = jsonencode([
     {
       name  = var.config.name,

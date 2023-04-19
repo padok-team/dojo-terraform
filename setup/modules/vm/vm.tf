@@ -47,6 +47,7 @@ locals {
       lb_listner_arn       = var.context.lb.listener_arn,
       lb_security_group_id = var.context.lb.security_group_id,
       vpc_id               = var.context.network.vpc_id,
+      private_subnets_ids  = var.context.network.private_subnets_ids,
       aws_account_id       = data.aws_caller_identity.current.account_id,
       iam_user_name        = aws_iam_user.user.name,
       iam_user_password    = aws_iam_user_login_profile.user.password,

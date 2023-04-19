@@ -24,7 +24,6 @@ resource "aws_ecs_service" "this" {
     }
   }
 
-  # FIXME: Pass capacity provider strategy to service directly, do not rely on cluster default
   lifecycle {
     ignore_changes = [
       capacity_provider_strategy

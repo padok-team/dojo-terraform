@@ -24,14 +24,24 @@ This documentation could be useful for the dojo. Don't be afraid to ask question
 
 **Technical Comments**
 
+**Install on your computer:**
 - Download & install [Visual Studio Code](https://code.visualstudio.com/download)
 - Install [`Remote - SSH`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension for VSCode
 - Make sure you have declared your ssh key in your github account (cf [the documentation](https://docs.github.com/fr/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account))
 - Connect through `ssh-remote` with `<github_handle>@<github_handle>.dojo.padok.school`
+
+**From VSCode ssh-remote:**
 - Go to `/home/<github_handle>/dojo-terraform` in the Virtual Machine
 - Use `tfswitch` command to install the accurate terraform version
 - Explore your repository!! :D
 - Type your first `terraform` CLI command to show the current version in use
+
+**Access to your AWS Console:**
+- Go to [AWS Management console](https://aws.amazon.com/fr/console/)
+- Click on Sign in
+- Connect as IAM User
+- Find `aws_account_id` `iam_user_name` `iam_user_password` to authenticate
+- You are reader on the Account! Enjoy!
 
 <details>
   <summary> Hint n°1</summary>
@@ -51,6 +61,7 @@ This documentation could be useful for the dojo. Don't be afraid to ask question
 - [ ] I can connect to my remote VM at `<github_handle>@<github_handle>.dojo.padok.school`
 - [ ] I can open the repository [dojo-terraform](https://github.com/padok-team/dojo-terraform) on VS Code
 - [ ] I can show my installed terraform version
+- [ ] I can connect to my AWS Console
 
 Know that you are all set up,you are ready to deploy your application with Terraform on an AWS infrastructure!
 
@@ -91,7 +102,7 @@ DNS:
 
 - Create a file `dns.tf` and use the resource [`aws_route53_record`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record)
 - The endpoint name is `<github_handle>-app.dojo.padok.school`. For now we will only have one endpoint (app) instead of two (frontend and backend).
-- Zone ID and record list are given by your professor
+- Find dns_zone_id and lb_dns_name in `~/data.txt` to fill your zone_id and record list
 - This is CNAME record
 
 Deployment:
@@ -133,7 +144,7 @@ At this point, your `terraform` configuration is set and you can deploy new reso
 Data:
 
 - Based on [AWS provider documentation](https://registry.terraform.io/providers/hashicorp/aws/latest), use a [aws_route53_zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) data to refer an existing hosted zone named `dojo.padok.school`. The route is not private.
-- Do the same for an `aws_lb` resource named "padok-dojo-lb" to get the dns name of the load balancer.
+- Do the same for an `aws_lb` resource named `padok-dojo-lb` to get the `dns_name` of the load balancer.
 - Refer those data in your record resource. The attributes `zone_id` and `records` of your route 53 record should not be hardcoded anymore, but should use data references.
 
 <details>
@@ -190,7 +201,7 @@ Now let's deploy our web application! :D
 
 ### A - My load balancer can target my instances
 
-We want to confgiure our Load Balancer to target your application instances, based on their endpoint.
+We want to configure our Load Balancer to target our application instances, based on their endpoint.
 
 **Technical Comments**
 
@@ -244,7 +255,7 @@ resource "aws_lb_target_group" "this" {
 
 ```yaml
 resource "aws_lb_listener_rule" "this" {
-  # TODO: iterate to create 2 target groups
+  # TODO: iterate to create 2 listener rules
   listener_arn = "" #TOFILL
   action {
     type             = "forward"
@@ -291,9 +302,10 @@ resource "aws_lb_listener_rule" "this" {
 - Take a look at the service module in [`modules/service`](modules/service)
 - Some Environment variables must be set
   - frontend: BACKEND_URL
-  - backend: APPLICATION_USER
+  - backend: APPLICATION_USER - (that's you!)
 - Instanciate the module by creating a terraform file in [`app/`](./app). The source can be a relative path to your module.
-- You need to deploy two services: frontend and backend
+- You need to deploy two services: `<github-handle>-frontend` and `<github-handle>-backend`
+- The ECS cluster name is `padok-dojo`
 - Set the proper variables for your module
 - Useful informations are in `~/data.txt`
 - Deploy your resources
@@ -305,12 +317,17 @@ resource "aws_lb_listener_rule" "this" {
 
 <details>
   <summary> Hint n°2</summary>
-  You might need some outputs from previously created resources to use for the module variables.
+  We want to enable lb variable and to fill it...
 </details>
 
 <details>
   <summary> Hint n°3</summary>
-  You can reuse the locals created previously to iterate over the module and create the two services.
+  You might need some outputs from previously created resources to use for the module variables.
+</details>
+
+<details>
+  <summary> Hint n°4</summary>
+  You can re-use the locals created previously to iterate over the module and create the two services.
 </details>
 
 
@@ -346,7 +363,7 @@ Let's create a module!
 
 <details>
   <summary> Hint n°2</summary>
-  You can declare datas in app layer to pass only useful informations to the module.
+  Avoid declaring data directly in the module. Prefer using variables and declare datas where you call your module.
 </details>
 
 <details>
@@ -375,7 +392,7 @@ Congratulations!! 🥳 You are a Terraform Builder!
 **Technical Comments:**
 - Based on [Terraform CLI documentation](https://developer.hashicorp.com/terraform/cli) and using Treraform CLI
 - List all resources of your state
-- Remove a resource from your state and make a plan to see what it will do. You may try to apply
+- Remove a resource from your state and make a plan to see what it will do. You can try to apply to see what happens
 - Import the resource you deleted in your state
 - Destroy only one resource with a `--target`
 
@@ -385,12 +402,14 @@ Congratulations!! 🥳 You are a Terraform Builder!
 ### B - Limitations
 
 **Technical Comments:**
-- [ ] Take a look at [remote state documentation](https://developer.hashicorp.com/terraform/language/state/remote)
-- [ ] Take a look at [terragrunt documentation](https://terragrunt.gruntwork.io/)
+- Take a look at [remote state documentation](https://developer.hashicorp.com/terraform/language/state/remote)
+- Take a look at [terragrunt documentation](https://terragrunt.gruntwork.io/)
+- Take a look at [Padok team terraform guidelines](https://padok-team.github.io/docs-terraform-guidelines/)
 
 **Acceptance Criterias:**
 - [ ] I know why remote state and state lock are necessary
 - [ ] I understand the limitations of Terraform and know the usefulness of Terragrunt
+- [ ] I have read Padok terraform guidelines
 
 ## Clean
 
