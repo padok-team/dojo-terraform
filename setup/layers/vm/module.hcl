@@ -23,16 +23,15 @@ inputs = {
   context = {
     dns = dependency.dns.outputs.this
     network = {
-      vpc_id             = dependency.network.outputs.vpc_id
-      public_subnets_ids = dependency.network.outputs.public_subnets
-      private_subnet_ids = dependency.network.outputs.private_subnets
+      vpc_id              = dependency.network.outputs.vpc_id
+      public_subnets_ids  = dependency.network.outputs.public_subnets
+      private_subnets_ids = dependency.network.outputs.private_subnets
     }
     lb = dependency.cluster.outputs.lb
     vm = {
       name = local.name
       github_usernames = [
-        "qprichard",
-        "edix9"
+        "qprichard"
       ]
       instance_type = "t3a.large"
       repositories = {
