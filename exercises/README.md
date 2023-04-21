@@ -2,8 +2,14 @@
 
 In this dojo, you will learn Terraform basics, how to use the language and how to organize your codebase to make it easly understandable and maintanable.
 
-For the purpose of the dojo we will deploy a classic AWS infrastructure to expose a mini website on Internet. In order to make it simplier for you, we already set up some parts of the infrastructure and you have a dedicated Virtual Machine with all the tools and rights you need.
+All along the exercies, we will deploy a basic Frontend / Backend Website exposed on internet with every required AWS infrastructure configurations to make it work.
 
+In order to make it simplier for you, we already set up some parts of the infrastructure and you have a dedicated Virtual Machine with all the tools and rights you need.
+
+Don't hesitate to:
+- Read every technical comments
+- Inspect provided documentations
+- Ask questions
 
 **Target Infrastructure**
 
@@ -19,39 +25,64 @@ This documentation could be useful for the dojo. Don't be afraid to ask question
 - [Tfswitch](https://tfswitch.warrensbox.com/Install/)
 - [AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest)
 - [Visual Studio Code](https://code.visualstudio.com/)
+- [Slides](../.src/%5BPadok%20x%20XXXX%5D%20Dojo%20Terraform.pdf)
 
 ## Step 0 - I set up my toolbox
 
+We will configure your computer to easly connect to the remote Virtual Machine deployed for you, through `Remote-SSH` plugin in VSCode.
+
 **Technical Comments**
 
-**Install on your computer:**
+*Github configuration:*
+- You need a `GitHub account` and an `ssh client`
+- Get your github `handle` (username)
+- Make sure you declared your `ssh rsa public key` in your github account
+
+If not:
+- Run the following commands (on Linux)
+```bash
+# Create a key pair
+ssh-keygen -t rsa -d 4096 -C "your.name@email.com"
+
+# show your public key
+cat ~/.ssh/id_rsa.pub
+
+# Copy the value
+```
+- Follow [the doc](https://docs.github.com/fr/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) to add your public key to github
+
+
+*IDE configuration:*
 - Download & install [Visual Studio Code](https://code.visualstudio.com/download)
 - Install [`Remote - SSH`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension for VSCode
-- Make sure you have declared your ssh key in your github account (cf [the documentation](https://docs.github.com/fr/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account))
-- Connect through `ssh-remote` with `<github_handle>@<github_handle>.dojo.padok.school`
+- Use plugin to connect to VM through `<github_handle>@<github_handle>.dojo.padok.school`
 
-**From VSCode ssh-remote:**
-- Go to `/home/<github_handle>/dojo-terraform` in the Virtual Machine
-- Use `tfswitch` command to install the accurate terraform version
-- Explore your repository!! :D
-- Type your first `terraform` CLI command to show the current version in use
+*Remote VM configuration (from VSCode remote-ssh):*
+- Run The following commands:
+```bash
+# Go to ~/dojo-terraform
+cd ~/dojo-terraform
 
-**Access to your AWS Console:**
+# Install required terraform version
+tfswitch
+
+# Reload .profile configuration
+source ~/.profile
+
+# Check terraform is installed
+terraform --version
+```
+
+*Access to your AWS Console:*
 - Go to [AWS Management console](https://aws.amazon.com/fr/console/)
 - Click on Sign in
 - Connect as IAM User
-- Find `aws_account_id` `iam_user_name` `iam_user_password` to authenticate
-- You are reader on the Account! Enjoy!
+- In `~/data.txt` find
+  - `aws_account_id`
+  - `iam_user_name`
+  - `iam_user_password`
+- You are reader on the Account! Feel free to explore!
 
-<details>
-  <summary> Hint n°1</summary>
-  Tfswitch will use `.tfswitchrc` file in your repository...
-</details>
-
-<details>
-  <summary> Hint n°2</summary>
-  Have you  read the Getting Started `terraform` documentation?
-</details>
 
 <br>
 
@@ -63,14 +94,16 @@ This documentation could be useful for the dojo. Don't be afraid to ask question
 - [ ] I can show my installed terraform version
 - [ ] I can connect to my AWS Console
 
+
 Know that you are all set up,you are ready to deploy your application with Terraform on an AWS infrastructure!
+
+<br/>
 
 <details>
   <summary> What did you learn? </summary>
   <ul>
     <li>Use tfswitch to change your terraform version</li>
     <li>Terraform CLI can be used in your console</li>
-    <li>(optional) - VSCode is awsome </li>
   </ul>
 </details>
 
@@ -85,11 +118,13 @@ We will have two endpoints:
 
 In the meantime you will learn how to make a basic configuration for terraform.
 
+<br/>
+
 ### A - I can deploy a terraform resource
 
 **Technical Comments**
 
-Provder configuration:
+*Provder configuration:*
 - In [`app/`](./app), create a `_settings.tf` file
 - Based on [AWS provider documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs), configure `terraform` and `provider` blocks with
   - `>= 4.0.0` required provider version
@@ -98,20 +133,23 @@ Provder configuration:
     - ManagedByTF = "true"
     - User = "<github_handle>"
 
-DNS:
+*DNS:*
+- Create a `dns.tf` file and use [aws_route53_record](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) resource
+- Some useful informations:
+  - name - value is like `<github_handle>-app.dojo.padok.school` (for now we juste have one *app* instead of two *frontend* and *backend*)
+  - zone_id - value can be found in `~/data.txt`
+  - records - value is a `list` you want to put the lb_dns_name that is in `~/data.txt`
+  - type - value is `CNAME`
 
-- Create a file `dns.tf` and use the resource [`aws_route53_record`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record)
-- The endpoint name is `<github_handle>-app.dojo.padok.school`. For now we will only have one endpoint (app) instead of two (frontend and backend).
-- Find dns_zone_id and lb_dns_name in `~/data.txt` to fill your zone_id and record list
-- This is CNAME record
-
-Deployment:
+*Deployment:*
 - Using your `terraform` CLI in VSCode console and based on [Terraform documentation](https://developer.hashicorp.com/terraform)
 - Init your terraform configuration using `terraform init`
 - You should see on you terminal "Terraform has been successfully innitialized!"
 - Deploy your configuration
 - See your DNS record in AWS Console in Route 53 > Hosted zones - `dojo.padok.school`
 - Take a look at the `.tfstate` file created on your `app` folder
+
+<br/>
 
 <details>
   <summary> Hint n°1</summary>
@@ -128,24 +166,29 @@ Deployment:
   Maybe try a `terraform init`, `terraform plan`, `terraform apply` commands?
 </details>
 
-### Acceptance Criterias
+<br/>
+
+**Acceptance Criterias**
 - [ ] I have a DNS record `<github_handle>-app.dojo.padok.school` in my DNS Hosted Zone
 - [ ] I can make a `terraform apply` on my `app` folder
 - [ ] I have a local terraform `state` with all my deployed resources described in it
 
-<br>
+<br/>
+
 At this point, your `terraform` configuration is set and you can deploy new resources and change existing ones. But some informations are hardcoded in your code, what do you think of that?
 
+<br/>
 
 ### B - I keep my codebase DRY
 
 **Technical Comments**
 
-Data:
-
+*Data:*
 - Based on [AWS provider documentation](https://registry.terraform.io/providers/hashicorp/aws/latest), use a [aws_route53_zone](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) data to refer an existing hosted zone named `dojo.padok.school`. The route is not private.
 - Do the same for an `aws_lb` resource named `padok-dojo-lb` to get the `dns_name` of the load balancer.
 - Refer those data in your record resource. The attributes `zone_id` and `records` of your route 53 record should not be hardcoded anymore, but should use data references.
+
+<br/>
 
 <details>
   <summary> Hint n°1</summary>
@@ -157,8 +200,9 @@ Data:
   Resources & Data blocks expose some outputs you can use.
 </details>
 
+<br/>
 
-Locals:
+*Locals:*
 
 - Create a new file `locals.tf` and check [how locals are declared in terraform](https://developer.hashicorp.com/terraform/language/values/locals)
 - Add a new local `applications` that is a map of empty object named "frontend" and "backend"
@@ -166,12 +210,16 @@ Locals:
   - `<github_handle>-frontend.dojo.padok.school`
   - `<github_handle>-backend.dojo.padok.school`
 - Re-deploy your infrastructure. Your Terraform plan will destroy some resources, that's not a problem.
+- Run `terraform state list` command to list every resources deployed in your state, and observe how your iterated resources are organized
+
+<br/>
 
 <details>
   <summary> Hint n°3</summary>
   To iterate over maps, you can use the [for_each](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each) expression.
 </details>
 
+<br/>
 
 **Acceptance Criterias**
 - [ ] My terraform code does not have external resources hardecoded configuration
@@ -180,9 +228,12 @@ Locals:
   - `<github_handle>-backend.dojo.padok.school`
   and the code for these resources is unique
 
+<br/>
 
 At this point, you deployed two dns records for your application, each one pointing on the same Elastic Load Balancer instance.
 Now let's deploy our web application! :D
+
+<br/>
 
 <details>
   <summary> What did you learn? </summary>
@@ -193,19 +244,25 @@ Now let's deploy our web application! :D
     <li>Use data to get remote resoures informations</li>
     <li>Use locals to avoid repetition in code</li>
     <li>Iterate on your resources</li>
+    <li>List resources present in terraform state</li>
   </ul>
 </details>
 
+<br/>
 
 ## Step 2 - I deploy my application
 
 ### A - My load balancer can target my instances
 
+<br/>
+
 We want to configure our Load Balancer to target our application instances, based on their endpoint.
+
+<br/>
 
 **Technical Comments**
 
-**LB target groups**
+*LB target groups*
 
 - Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group) and the following template
 - Set the accurate configuration to deploy two `aws_lb_target_group` using iteration
@@ -247,7 +304,7 @@ resource "aws_lb_target_group" "this" {
 
 <br/>
 
-**LB listener rules**
+*LB listener rules:*
 - Based on the [official documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule) and the following template
 - Set the accurate configuration to deploy two `aws_lb_listener_rule` using iteration
 - Useful informations are in `~/data.txt`
@@ -275,11 +332,18 @@ resource "aws_lb_listener_rule" "this" {
 }
 ```
 
+<br/>
 
 <details>
   <summary> Hint n°1</summary>
   You may re-use the  application local already declared.
 </details>
+
+<details>
+  <summary> Hint n°2</summary>
+  You want to refer the previously created target_group in your resource. A `terraform state list` may help you...
+</details>
+
 
 <details>
   <summary> Hint n°2</summary>
@@ -310,6 +374,8 @@ resource "aws_lb_listener_rule" "this" {
 - Useful informations are in `~/data.txt`
 - Deploy your resources
 
+<br/>
+
 <details>
   <summary> Hint n°1</summary>
   You may use a data to get ECS cluster details. Its name is padok-dojo.
@@ -330,12 +396,13 @@ resource "aws_lb_listener_rule" "this" {
   You can re-use the locals created previously to iterate over the module and create the two services.
 </details>
 
+<br/>
 
 **Acceptance Criterias**
 - [ ] My backend endpoint shows the expected data
 - [ ] My frontend endpoints shows a terraform image and congratulates me for my great work 🥳
 
-
+<br/>
 
 ### C - I have my own module for my application
 
@@ -350,11 +417,6 @@ Let's create a module!
 - Set your variables and outputs
 - Use your module in `app` folder to deploy your frontend and your backend
 
-
-**Acceptance Criterias:**
-- I have an `app` module
-- I use my `app` module in my layer
-- My application runs in AWS Infrastructure with acc
 
 <details>
   <summary> Hint n°1</summary>
@@ -371,7 +433,17 @@ Let's create a module!
   Don't forget to keep your code DRY!
 </details>
 
+
+**Acceptance Criterias:**
+- [ ] I have an `app` module
+- [ ] I use my `app` module in my layer
+- [ ] I can easly scale up my number of applications instances with multiple configurations
+
+<br/>
+
 Congratulations!! 🥳 You are a Terraform Builder!
+
+<br/>
 
 <details>
   <summary> What did you learn? </summary>
@@ -384,6 +456,8 @@ Congratulations!! 🥳 You are a Terraform Builder!
     <li>Create variables</li>
   </ul>
 </details>
+
+<br/>
 
 ## Step 3 - To go further
 
@@ -399,6 +473,8 @@ Congratulations!! 🥳 You are a Terraform Builder!
 **Acceptance Criterias:**
 - [ ] I know some deeper `terraform CLI`
 
+<br/>
+
 ### B - Limitations
 
 **Technical Comments:**
@@ -411,6 +487,8 @@ Congratulations!! 🥳 You are a Terraform Builder!
 - [ ] I understand the limitations of Terraform and know the usefulness of Terragrunt
 - [ ] I have read Padok terraform guidelines
 
+<br/>
+
 ## Clean
 
-Don't forget to clean your toolbox by running `terraform destroy` in `exercices/app`.
+Don't forget to clean your toolbox by running `terraform destroy` in `exercices/app`. It may take a while...

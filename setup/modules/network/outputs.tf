@@ -12,7 +12,3 @@ output "vpc_id" {
   description = "The ID of the VPC."
   value       = module.vpc.vpc_id
 }
-output "bastion_security_group_id" {
-  description = "The security group ID for the SSM Bastion."
-  value       = module.ssm_bastion.security_group_id
-}
