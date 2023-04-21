@@ -1,5 +1,7 @@
 # Dojo terraform setup
 
+![Infrastructure](./.src/infrastructure.png)
+
 ## Requirements
 
 Install the following tools:
