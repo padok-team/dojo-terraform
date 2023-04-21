@@ -1,0 +1,20 @@
+---
+regions:
+  - eu-west-3
+  - global
+
+account-blocklist:
+  - '766369807176' # padok_sso
+  - '203326423340' # padok_lab
+
+accounts:
+  '450568479740':
+    filters:
+      IAMSAMLProvider:
+        - arn:aws:iam::450568479740:saml-provider/AWSSSO_855246cd16dd7412_DO_NOT_DELETE
+      IAMRole:
+        - padok_dojo
+        - AWSReservedSSO_AdministratorAccess_f94c01a55a516fbc
+      IAMRolePolicyAttachment:
+        - padok_dojo -> AdministratorAccess
+        - AWSReservedSSO_AdministratorAccess_f94c01a55a516fbc -> AdministratorAccess

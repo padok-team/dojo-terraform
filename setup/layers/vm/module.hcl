@@ -29,11 +29,9 @@ inputs = {
     }
     lb = dependency.cluster.outputs.lb
     vm = {
-      name = local.name
-      github_usernames = [
-        "qprichard"
-      ]
-      instance_type = "t3a.large"
+      name             = local.name
+      github_usernames = []
+      instance_type    = "t3a.large"
       repositories = {
         "dojo-terraform" = "https://github.com/padok-team/dojo-terraform.git"
       }

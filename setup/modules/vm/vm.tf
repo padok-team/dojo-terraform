@@ -91,8 +91,6 @@ resource "aws_instance" "this" {
 }
 
 
-# --- SSM Policies ---
-
 data "aws_iam_policy_document" "ec2_sts_assume" {
   statement {
     effect = "Allow"

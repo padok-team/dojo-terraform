@@ -11,6 +11,7 @@ module "ecrs" {
   source  = "terraform-aws-modules/ecr/aws"
   version = "1.5.1"
 
+  repository_force_delete       = true
   repository_image_scan_on_push = true
   repository_name               = "${var.base_name}/${each.value}"
 
