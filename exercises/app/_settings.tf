@@ -10,11 +10,13 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
         region = "eu-west-3"
+        }
 
-    default_tags {
-        tags = 
-            ManagedByTF = "true"
-            User = "<blblbly>"
+default_tags {
+    tags = 
+        ManagedByTF = "true"
+        User = "<blblbly>"
+}
 
 # Configure the route 53
 resource "aws_route53_zone" "primary" {
@@ -22,6 +24,4 @@ resource "aws_route53_zone" "primary" {
 }
 data "aws_lb" "padok-dojo-lb" {
   name = padok-dojo-lb
-}
-}
 }
