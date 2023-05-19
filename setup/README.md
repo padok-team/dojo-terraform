@@ -56,7 +56,7 @@ The principal resources deployed are:
 wget -c https://github.com/rebuy-de/aws-nuke/releases/download/v2.22.1/aws-nuke-v2.22.1-linux-amd64.tar.gz -O - | tar -xz -C $HOME/bin
 
 # Create an alias for padok-dojo account
-aws iam create-account-alias --profile padok_dojo --account-alias padok_dojo
+aws iam create-account-alias --profile padok_dojo --account-alias padok-dojo
 
 # Destroy all resources in aws account
 aws-nuke -c ./nuke-config.yaml --profile padok_dojo --no-dry-run
