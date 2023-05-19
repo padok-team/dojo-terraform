@@ -197,7 +197,7 @@ At this point, your `terraform` configuration is set and you can deploy new reso
 
 <details>
   <summary> Hint n°2</summary>
-  Resources & Data blocks expose some outputs you can use.
+  Resources & Data blocks expose some attributes you can use.
 </details>
 
 <br/>
