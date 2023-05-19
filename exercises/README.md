@@ -216,6 +216,11 @@ At this point, your `terraform` configuration is set and you can deploy new reso
 
 <details>
   <summary> Hint n°3</summary>
+  Have you look at [terraform types](https://developer.hashicorp.com/terraform/language/expressions/types)?
+</details>
+
+<details>
+  <summary> Hint n°4</summary>
   To iterate over maps, you can use the [for_each](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each) expression.
 </details>
 
